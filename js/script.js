@@ -41,15 +41,6 @@ const titleClickHandler = function(event){
 
   }
   
-  const links = document.querySelectorAll('.titles a');
-  
-  for(let link of links){
-    link.addEventListener('click', titleClickHandler);
-  }
-
-
-
-
 
   const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
@@ -59,40 +50,53 @@ function generateTitleLinks(){
 
   /* remove contents of titleList */
 
- const titleList = document.querySelector(optTitleListSelector);
+  const titleList = document.querySelector(optTitleListSelector);
 
- function clearMessages(){
-  titleList.innerHTML = '';
-  console.log (clearMessages);
-}
+  function clearMessages(){
+   titleList.innerHTML = '';
+   console.log (clearMessages);
+ }   
+ 
+   /* for each article */
+ 
+   const articles = document.querySelectorAll(optArticleSelector);
+ 
+ 
+     /* get the article id */
 
-  /* for each article */
+     let html = '';
+ 
+     for (let article of articles) {
+       const articleId = article.getAttribute("id"); 
+ 
+     /* find the title element */
+ 
+     const articleTitle = article.querySelector(optTitleSelector);
+     
+      /* get the title from the title element */
+ 
+     const getTitle = articleTitle.textContent;
+  
+      /* create HTML of the link */
+  
+      const linkHTML = '<li><a href="#' + articleId + '"><span>' + getTitle + '</span></a></li>';
 
-  const articles = document.querySelectorAll(optArticleSelector);
+      /* insert link into titleList */
+      titleList.insertAdjacentHTML("afterbegin", linkHTML);
+      html = html + linkHTML;
+      console.log(html)
+     }
+
+     titleList.innerHTML = html;   
 
 
-    /* get the article id */
+  const links = document.querySelectorAll('.titles a');
+  console.log(links);
 
-    for (let article of articles) {
-      const articleId = article.getAttribute("id"); /*nie wiem gdzie zdefiniować articleId, wydawało mi się ze skoru w tej funkcji biorę atrybut id z każdego artykułu to będzie to zmienna article Id. Gdzie popełniam błąd w myśleniu?? console nie czyta zmiennej article Id :( */
-    }
-
-    /* find the title element */
-
-    const articleTitle = document.querySelector(optTitleSelector);
-
-    /* get the title from the title element */
-
-    const getTitle = articleTitle.getAttribute("innerHTML"); /*nie wiem jak wziąć zawartość (tekst) elementu title*/
-
-    /* create HTML of the link */
-
-    const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
-
-    /* insert link into titleList */
-
-    titleList.innerHTML = titleList.innerHTML + linkHTML;
-
+  for(let link of links){
+    link.addEventListener('click', titleClickHandler);
+  }
+     
 }
 
 generateTitleLinks();
